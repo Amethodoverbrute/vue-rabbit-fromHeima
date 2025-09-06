@@ -1,6 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from "vue-router";
+// 这个配置项只做 路径联想提示
+import HelloWorld from "@/components/HelloWorld.vue";
 </script>
 
 <template>
