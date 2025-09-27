@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from "vue";
-import { loginAPI } from "@/apis/user";
+// import { loginAPI } from "@/apis/user";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
+
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
 
 // 表单校验 （账户名+密码）
 
@@ -51,8 +55,9 @@ const doLogin = () => {
     // 以valid的值作为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TO DO LOGIN
-      const res = await loginAPI({ account, password });
-      console.log(res);
+      // const res = await loginAPI({ account, password });
+      // console.log(res);
+      await userStore.getUserInfo({ account, password });
       // 1、提示用户
       ElMessage({ type: "success", message: "登录成功" });
       // 2、跳转到网页首页
