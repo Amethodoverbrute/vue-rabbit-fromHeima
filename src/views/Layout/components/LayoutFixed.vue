@@ -5,7 +5,7 @@
 // 使用vueUse 插件
 import { useScroll } from "@vueuse/core";
 
-import { useCategoryStore } from "@/stores/category";
+import { useCategoryStore } from "@/stores/categoryStore";
 // 使用pinia中的数据
 const categoryStore = useCategoryStore();
 
