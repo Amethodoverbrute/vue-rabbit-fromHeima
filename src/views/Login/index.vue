@@ -9,7 +9,7 @@ import { useUserStore } from "@/stores/userStore";
 
 const userStore = useUserStore();
 
-// 表单校验 （账户名+密码）
+// 表单校验 功能 （账户名+密码）
 
 // 1、准备表单对象
 const form = ref({
@@ -36,7 +36,7 @@ const rules = {
         if (value) {
           callback();
         } else {
-          callback(new Error("请勾选协议"));
+          callback(new Error("请勾选协议！"));
         }
       },
     },
@@ -51,7 +51,7 @@ const doLogin = () => {
   // 调用实例方法
   formRef.value.validate(async (valid) => {
     // valid:所有表单都通过校验 才为true
-    console.log(valid);
+    // console.log(valid);
     // 以valid的值作为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TO DO LOGIN
@@ -63,11 +63,12 @@ const doLogin = () => {
       // 2、跳转到网页首页
       router.replace({ path: "/" });
     }
+    // 登录失败的话，用utils中的统一拦截器做了处理
   });
 };
 
 // 回顾
-// 1、登录所需的用户名和密码 只需要通过简单的配置（看文档的方式 —— 复杂的功能 可以/需要 通过多个不同组件来进行拆解/分）
+// 1、登录所需的 用户名和密码 只需要通过简单的配置（看文档的方式 —— 复杂的功能 可以/需要 通过多个不同组件来进行拆解/分）
 // 2、同意协议 自定义规则 validator:(rule,value,callback)=>{}
 // 3、统一校验 通过调用form实例的方法 validate -> true
 </script>
@@ -95,19 +96,24 @@ const doLogin = () => {
         <div class="account-box">
           <div class="form">
             <!--  -->
+            <!-- @submit.native.prevent="onSubmit"   关键：监听回车提交 .native 是 Vue 2 写法，Vue 3 中可省略（取决于版本） -->
             <el-form
               ref="formRef"
               :model="form"
               :rules="rules"
+              @submit.prevent="doLogin"
               label-position="right"
               label-width="60px"
               status-icon
             >
+              <!-- el-form-item 可以叫做表单域组件 -->
               <el-form-item prop="account" label="账户">
                 <el-input v-model="form.account" />
               </el-form-item>
               <el-form-item prop="password" label="密码">
-                <el-input v-model="form.password" />
+                <el-input v-model="form.password" type="password" @keyup.enter="doLogin" />
+                <!-- @keyup.enter="doLogin" -->
+                <!-- 可选：额外保险 -->
               </el-form-item>
               <el-form-item prop="agree" label-width="22px">
                 <el-checkbox size="large" v-model="form.agree">

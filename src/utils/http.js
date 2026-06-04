@@ -1,10 +1,12 @@
 // axios基础的封装
 import axios from "axios";
+
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useUserStore } from "@/stores/userStore";
 import router from "@/router";
 
+// 配置基地址与超时时间
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
   timeout: 50000,
@@ -48,4 +50,5 @@ httpInstance.interceptors.response.use(
   }
 );
 
+// 默认 导出！
 export default httpInstance;

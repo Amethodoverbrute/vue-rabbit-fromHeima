@@ -20,7 +20,7 @@ const getPayInfo = async () => {
 onMounted(() => getPayInfo());
 
 // 跳转支付
-// 携带订单id 以及 回调地址 跳转到支付地址（get）
+// 携带订单id 以及 回调跳地址 跳转到支付地址（get）
 // 支付地址
 const baseURL = "http://pcapi-xiaotuxian-front-devtest.itheima.net/";
 const backURL = "http://127.0.0.1:5173/paycallback";

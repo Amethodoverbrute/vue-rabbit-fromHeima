@@ -46,7 +46,7 @@ onMounted(() => getOrderList());
 
 // tab切换 回调 函数
 const tabChange = (type) => {
-  console.log(type);
+  // console.log(type);
   params.value.orderState = type;
   getOrderList();
 };

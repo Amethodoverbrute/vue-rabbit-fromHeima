@@ -19,6 +19,7 @@ const { categoryData } = useCategory();
           <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+
       <!-- 轮播图 -->
       <div class="home-banner">
         <el-carousel height="500px">
@@ -27,7 +28,8 @@ const { categoryData } = useCategory();
           </el-carousel-item>
         </el-carousel>
       </div>
-      <!--  -->
+
+      <!-- 全部分类 -->
       <div class="sub-list">
         <h3>全部分类</h3>
         <ul>
@@ -39,6 +41,8 @@ const { categoryData } = useCategory();
           </li>
         </ul>
       </div>
+
+      <!-- 列表遍历 -->
       <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
         <div class="head">
           <h3>- {{ item.name }}-</h3>

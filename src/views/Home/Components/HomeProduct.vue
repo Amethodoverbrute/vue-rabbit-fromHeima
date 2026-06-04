@@ -6,6 +6,7 @@ import GoodsItem from "./GoodsItem.vue";
 
 // 获取数据列表
 const goodsProduct = ref([]);
+
 const getGoods = async () => {
   const res = await getGoodsAPI();
   goodsProduct.value = res.result;

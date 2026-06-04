@@ -16,6 +16,7 @@ import HeaderCart from "./HeaderCart.vue";
 // });
 
 import { useCategoryStore } from "@/stores/categoryStore";
+
 // 使用pinia中的数据
 const categoryStore = useCategoryStore();
 </script>
@@ -26,7 +27,11 @@ const categoryStore = useCategoryStore();
       <h1 class="logo">
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
+
       <ul class="app-header-nav">
+        <li class="home">
+          <RouterLink to="/">首页</RouterLink>
+        </li>
         <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink active-class="active" :to="`/category/${item.id}`">{{
             item.name
@@ -39,6 +44,7 @@ const categoryStore = useCategoryStore();
         <li><RouterLink to="/">美食</RouterLink></li>
         <li><RouterLink to="/">服饰</RouterLink></li> -->
       </ul>
+
       <div class="search">
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜" />

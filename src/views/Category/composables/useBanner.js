@@ -1,4 +1,5 @@
 // 封装banner轮播图相关的业务代码
+
 // 获取banner
 import { ref, onMounted } from "vue";
 import { getBannerAPI } from "@/apis/home";
@@ -10,7 +11,7 @@ export function useBanner() {
     const res = await getBannerAPI({
       distributionSite: "2",
     });
-    console.log(res);
+    // console.log(res);
     bannerList.value = res.result;
   };
 

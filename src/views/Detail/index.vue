@@ -9,8 +9,10 @@ import { useRoute } from "vue-router";
 import { useCartStore } from "@/stores/cartStore";
 
 const cartStore = useCartStore();
+
 const goods = ref({});
 const route = useRoute();
+
 const getGoods = async () => {
   const res = await getDetail(route.params.id);
   goods.value = res.result;
@@ -21,14 +23,14 @@ onMounted(() => getGoods());
 // sku规格被操作时
 let skuObj = {};
 const skuChange = (sku) => {
-  console.log(sku);
+  // console.log(sku);
   skuObj = sku;
 };
 
 // count
 const count = ref(1);
 const countChange = (count) => {
-  console.log(count);
+  // console.log(count);
 };
 
 // 添加购物车
@@ -58,7 +60,7 @@ const addCart = () => {
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <!-- 页面没有渲染出来的原因：/错误原因：goods一开始是个空对象{}，所以 {}.category -> undefined -->
+          <!-- 页面没有渲染出来的原因：/错误原因：goods一开始是个空对象{}，所以 {}.category -> undefined -> undefined[1] -->
           <!-- 解决方法 -->
           <!-- 1、可选链的语法：?. -->
           <!-- 2、v-if: 手动控制渲染时机，保证只有数据存在时才渲染 -->
@@ -74,15 +76,17 @@ const addCart = () => {
           <el-breadcrumb-item :to="{ path: '`/category/sub/${goods.categories[0].id}`' }"
             >{{ goods.categories[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+
       <!-- 商品信息 -->
       <div class="info-container">
         <div>
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
+              <!-- <ImageView :imageList="goods.mainPictures" /> -->
               <XtxImageView :imageList="goods.mainPictures" />
               <!-- 统计数量 -->
               <ul class="goods-sales">

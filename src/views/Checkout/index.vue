@@ -165,6 +165,7 @@ const createOrder = async () => {
       </div>
     </div>
   </div>
+
   <!-- 切换地址 -->
   <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
     <div class="addressWrapper">
@@ -191,6 +192,7 @@ const createOrder = async () => {
       </span>
     </template>
   </el-dialog>
+
   <!-- 添加地址 -->
 </template>
 
@@ -396,7 +398,7 @@ const createOrder = async () => {
     &.active,
     &:hover {
       border-color: $xtxColor;
-      background: lighten($xtxColor, 50%);
+      background: adjust-color($xtxColor, $lightness: 50%);
     }
 
     > ul {

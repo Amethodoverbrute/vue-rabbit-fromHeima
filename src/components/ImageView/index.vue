@@ -3,10 +3,10 @@ import { ref, watch } from "vue";
 import { useMouseInElement } from "@vueuse/core";
 
 // props适配图片列表
-
 defineProps({
   imageList: {
     type: Array,
+    // 用工厂函数返回“数组”
     default: () => [],
   },
 });
@@ -33,14 +33,17 @@ const { elementX, elementY, isOutside } = useMouseInElement(target);
 // 3、控制滑块跟随鼠标移动 （监听elementX/Y变化，一旦变化 重新设置left/top)
 const left = ref(0);
 const top = ref(0);
-// 大图的坐标
+
+// 放大图 的坐标
 const positionX = ref(0);
 const positionY = ref(0);
+
 watch([elementX, elementY, isOutside], () => {
-  console.log("xy变化了");
+  // console.log("xy变化了");
   // 如果鼠标没有移入到盒子里面 直接不执行后面的逻辑
   if (isOutside.value) return;
-  console.log("后续逻辑执行了");
+  // console.log("后续逻辑执行了");
+
   // 有效范围内控制滑块距离
   // 横向
   if (elementX.value > 100 && elementX.value < 300) {
@@ -65,20 +68,20 @@ watch([elementX, elementY, isOutside], () => {
     top.value = 0;
   }
 
-  // 控制大图的显示
+  // 控制 放大图 的显示
   positionX.value = -left.value * 2;
   positionY.value = -top.value * 2;
 });
 </script>
 
 <template>
-  {{ elementX }} {{ elementY }} {{ isOutside }}
+  <!-- {{ elementX }} {{ elementY }} {{ isOutside }} -->
   <div class="goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+      <div class="layer" v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
@@ -96,7 +99,7 @@ watch([elementX, elementY, isOutside], () => {
       class="large"
       :style="[
         {
-          backgroundImage: `url(${imageList[0]})`,
+          backgroundImage: `url(${imageList[activeIndex]})`,
           backgroundPositionX: `${positionX}px`,
           backgroundPositionY: `${positionY}px`,
         },

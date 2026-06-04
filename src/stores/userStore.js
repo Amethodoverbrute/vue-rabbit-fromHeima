@@ -43,6 +43,7 @@ export const useUserStore = defineStore(
       clearUserInfo,
     };
   },
+  // 添加配置
   {
     persist: true,
   }

@@ -1,13 +1,16 @@
 <script setup>
 import HomePanel from "./HomePanel.vue";
 import { getHotAPI } from "@/apis/home";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
 const hotList = ref([]);
+
 const getHotList = async () => {
   const res = await getHotAPI();
   hotList.value = res.result;
 };
-getHotList();
+
+onMounted(() => getHotList());
 </script>
 
 <template>
@@ -15,7 +18,9 @@ getHotList();
     <ul class="goods-list">
       <li v-for="item in hotList" :key="item.id">
         <RouterLink to="/">
+          <!-- <RouterLink :to="`/detail/${item.id}`"> -->
           <!-- <img v-img-lazy="item.picture" :src="item.picture" alt="" /> -->
+          <!-- 注销掉后面的:src="item.picture" 因为我要懒加载，不要直接把图片地址给我直接绑定了-->
           <img v-img-lazy="item.picture" alt="" />
           <p class="name">{{ item.title }}</p>
           <p class="desc">{{ item.alt }}</p>

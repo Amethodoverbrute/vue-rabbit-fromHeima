@@ -5,7 +5,8 @@ import { useRouter } from "vue-router";
 const userStore = useUserStore();
 const router = useRouter();
 const confirm = () => {
-  console.log("用户要退出登录了！");
+  // console.log("用户要退出登录了！");
+  // 退出登录业务逻辑实现
   // 1、清除用户信息 触发action函数即可
   userStore.clearUserInfo();
   // 2、跳转到登录页
@@ -17,11 +18,11 @@ const confirm = () => {
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <!-- 多模板渲染 用来区分登录状态和非登录状态 -->
+        <!-- 多模板渲染 用来区分 登录状态和非登录状态 -->
         <!-- 适配思路：登录时 显示第一块 非登录时 显示第二块 登录状态标识：是否有token-->
         <template v-if="userStore.userInfo.token">
           <li>
-            <a href="javascript:;"
+            <a href="javascript:;" @click="$router.push('/member')"
               ><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a
             >
           </li>
@@ -37,7 +38,7 @@ const confirm = () => {
               </template>
             </el-popconfirm>
           </li>
-          <li><a href="javascript:;">我的订单</a></li>
+          <li><a href="javascript:;" @click="$router.push('/member/order')">我的订单</a></li>
           <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>

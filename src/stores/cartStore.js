@@ -19,12 +19,14 @@ export const useCartStore = defineStore(
     };
 
     // 2、定义action —— addCart
-    // 添加购物车
+    // 添加购物车 操作
     const addCart = async (goods) => {
       const { skuId, count } = goods;
       if (isLogin.value) {
         // 登录之后的 加入购物车逻辑
         await insertCartAPI({ skuId, count });
+        // const res = await findNewCartListAPI();
+        // cartList.value = res.result;
         updateNewList();
       } else {
         // 添加购物车操作
@@ -42,11 +44,13 @@ export const useCartStore = defineStore(
       }
     };
 
-    // 删除购物车
+    // 删除购物车 操作
     const delCart = async (skuId) => {
       if (isLogin.value) {
         // 调用接口实现接口购物车中的删除功能
         await delCartAPI([skuId]);
+        // const res = await findNewCartListAPI();
+        // cartList.value = res.result;
         updateNewList();
       } else {
         // 思路：
@@ -57,7 +61,7 @@ export const useCartStore = defineStore(
       }
     };
 
-    // 清除购物车
+    // 清除购物车 操作
     const clearCart = () => {
       cartList.value = [];
     };
@@ -110,7 +114,7 @@ export const useCartStore = defineStore(
     };
   },
   {
-    // 同步同步本地数据
+    // 同步本地数据
     persist: true,
   }
 );

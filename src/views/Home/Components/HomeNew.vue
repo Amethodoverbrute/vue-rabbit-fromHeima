@@ -16,6 +16,7 @@ onMounted(() => getNewList());
 
 <template>
   <HomePanel title="新鲜好物" sub-title="新鲜出炉 品质靠谱">
+    <!-- 下面是插槽主体内容模版 -->
     <ul class="goods-list">
       <li v-for="item in newList" :key="item.id">
         <RouterLink :to="`/detail/${item.id}`">

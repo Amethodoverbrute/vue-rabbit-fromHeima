@@ -1,4 +1,5 @@
 // import httpInstance from "@/utils/http";
+// 因为这个httpInstance名字有点长，@/utils/http又是默认导出，所以这里取什么名字都行，比如下面的request
 import request from "@/utils/http";
 
 export function getCategoryAPI(id) {
