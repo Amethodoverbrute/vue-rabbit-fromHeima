@@ -13,7 +13,7 @@ const getCategoryData = async () => {
 };
 onMounted(() => getCategoryData());
 
-// 获取基础列表数据渲染
+// 获取基础列表数据 渲染
 const goodList = ref([]);
 // 准备请求参数
 const reqData = ref({
@@ -35,7 +35,7 @@ onMounted(() => getGoodList());
 // tab切换回调
 const tabChange = () => {
   // console.log("tab切换了", reqData.value.sortField);
-  reqData.value.page = 1;
+  reqData.value.page = 1; // 切换tab时，通常重置分页为第一页
   getGoodList();
 };
 
@@ -46,7 +46,7 @@ const load = async () => {
   // 获取下一页的数据
   reqData.value.page++;
   const res = await getSubCategoryAPI(reqData.value);
-  // 新老数据的拼接
+  // 新老数据的拼接，采用展开运算符 ... 实现数组的合并操作
   goodList.value = [...goodList.value, ...res.result.items];
   // 加载完毕，停止监听
   if (res.result.items.length === 0) {

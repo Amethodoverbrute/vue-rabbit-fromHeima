@@ -2,11 +2,11 @@
 import { ref, watch } from "vue";
 import { useMouseInElement } from "@vueuse/core";
 
-// props适配图片列表
+// props适配图片列表，接收外部（父组件）传递的图片列表
 defineProps({
   imageList: {
     type: Array,
-    // 用工厂函数返回“数组”
+    // 数组是引用类型，用工厂函数返回“数组”
     default: () => [],
   },
 });
@@ -20,7 +20,7 @@ defineProps({
 //   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg",
 // ];
 
-// 1、小图切换大图显示
+// 1、小图切换大图显示，根据点击的小图索引/下标切换大图显示
 const activeIndex = ref(0);
 const enterHandler = (i) => {
   activeIndex.value = i;
@@ -40,7 +40,7 @@ const positionY = ref(0);
 
 watch([elementX, elementY, isOutside], () => {
   // console.log("xy变化了");
-  // 如果鼠标没有移入到盒子里面 直接不执行后面的逻辑
+  // 如果鼠标没有移入到盒子里面 直接不执行后面的逻辑！
   if (isOutside.value) return;
   // console.log("后续逻辑执行了");
 
@@ -85,6 +85,7 @@ watch([elementX, elementY, isOutside], () => {
     </div>
     <!-- 小图列表 -->
     <ul class="small">
+      <!-- //通用套路 active类激活方法：当前点击的小图索引/下标 === activeIndex 时，激活active类，否则不激活 -->
       <li
         v-for="(img, i) in imageList"
         :key="i"
@@ -94,7 +95,7 @@ watch([elementX, elementY, isOutside], () => {
         <img :src="img" alt="" />
       </li>
     </ul>
-    <!-- 放大镜大图 -->
+    <!-- 放大镜 大图 -->
     <div
       class="large"
       :style="[

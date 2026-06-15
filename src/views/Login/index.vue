@@ -27,10 +27,8 @@ const rules = {
   ],
   agree: [
     {
+      // 自定义校验规则      // rule：校验规则对象      // value：当前输入的数据      // callback：校验处理函数，校验通过调用，校验不通过调用
       validator: (rule, value, callback) => {
-        // 自定义校验逻辑
-        // value：当前输入的数据
-        // callback：校验处理函数 校验通过调用
         // console.log(value);
         // 自定义校验规则，勾选就通过 不勾选就不通过
         if (value) {
@@ -43,24 +41,25 @@ const rules = {
   ],
 };
 
-// 3、获取form实例做统一校验
+// 3、获取form实例 做统一校验：validate 是 Element Plus 的 el-form 组件提供的实例方法，用于统一校验所有表单字段
 const formRef = ref(null);
 const router = useRouter();
 const doLogin = () => {
   const { account, password } = form.value;
-  // 调用实例方法
+  // 调用实例方法 validate 校验表单，validate()方法来自element-plus的el-form组件，根据校验规则对象 rules 来校验所有表单字段，返回校验结果 valid(true/false)
   formRef.value.validate(async (valid) => {
     // valid:所有表单都通过校验 才为true
     // console.log(valid);
-    // 以valid的值作为判断条件 如果通过校验才执行登录逻辑
+    // 以valid的值 作为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TO DO LOGIN
       // const res = await loginAPI({ account, password });
       // console.log(res);
+      // 登录成功后，调用用户状态管理模块的 getUserInfo 方法，获取用户信息，将用户信息存储到用户状态管理模块pinia中
       await userStore.getUserInfo({ account, password });
       // 1、提示用户
       ElMessage({ type: "success", message: "登录成功" });
-      // 2、跳转到网页首页
+      // 2、跳转到网页首页，使用replace比push好，因为replace会替换当前路由，而push会添加到路由栈中
       router.replace({ path: "/" });
     }
     // 登录失败的话，用utils中的统一拦截器做了处理
@@ -97,11 +96,11 @@ const doLogin = () => {
           <div class="form">
             <!--  -->
             <!-- @submit.native.prevent="onSubmit"   关键：监听回车提交 .native 是 Vue 2 写法，Vue 3 中可省略（取决于版本） -->
+            <!-- @submit.prevent="doLogin" -->
             <el-form
               ref="formRef"
               :model="form"
               :rules="rules"
-              @submit.prevent="doLogin"
               label-position="right"
               label-width="60px"
               status-icon

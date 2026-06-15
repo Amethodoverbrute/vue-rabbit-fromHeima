@@ -19,7 +19,7 @@ const confirm = () => {
     <div class="container">
       <ul>
         <!-- 多模板渲染 用来区分 登录状态和非登录状态 -->
-        <!-- 适配思路：登录时 显示第一块 非登录时 显示第二块 登录状态标识：是否有token-->
+        <!-- 适配思路：登录时 显示第一块，非登录时 显示第二块。 登录状态标识：是否有token-->
         <template v-if="userStore.userInfo.token">
           <li>
             <a href="javascript:;" @click="$router.push('/member')"
@@ -39,12 +39,12 @@ const confirm = () => {
             </el-popconfirm>
           </li>
           <li><a href="javascript:;" @click="$router.push('/member/order')">我的订单</a></li>
-          <li><a href="javascript:;">会员中心</a></li>
+          <li><a href="javascript:;" @click="$router.push('/member')">会员中心</a></li>
         </template>
         <template v-else>
           <li><a href="javascript:;" @click="$router.push('/login')">请先登录</a></li>
-          <li><a href="javascript:;">帮助中心</a></li>
-          <li><a href="javascript:;">关于我们</a></li>
+          <li><a href="javascript:;" @click="$router.push('/help')">帮助中心</a></li>
+          <li><a href="javascript:;" @click="$router.push('/about')">关于我们</a></li>
         </template>
       </ul>
     </div>

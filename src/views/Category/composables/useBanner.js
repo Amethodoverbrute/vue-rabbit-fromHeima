@@ -17,6 +17,7 @@ export function useBanner() {
 
   onMounted(() => getBanner());
 
+  //以对象的形式返回banner数据
   return {
     bannerList,
   };

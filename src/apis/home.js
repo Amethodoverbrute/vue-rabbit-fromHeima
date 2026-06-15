@@ -1,6 +1,6 @@
-import httpInstance from "@/utils/http";
+import httpInstance from "@/utils/http"; // 引入axios实例，用于发送请求。这里是默认导出，不需要加{}
 
-// 获取banner
+// 获取banner, 商品为2(改造/升级轮播图接口)
 export function getBannerAPI(params = {}) {
   // 默认为1 商品为2
   const { distributionSite = "1" } = params;

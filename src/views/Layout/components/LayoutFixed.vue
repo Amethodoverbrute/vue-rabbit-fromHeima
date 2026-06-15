@@ -2,7 +2,7 @@
 // import { getCategoryAPI } from "@/apis/layout";
 // import { onMounted, ref } from "vue";
 
-// 使用vueUse 插件
+// 使用vueUse 插件，监听滚动事件
 import { useScroll } from "@vueuse/core";
 
 import { useCategoryStore } from "@/stores/categoryStore";
@@ -93,10 +93,12 @@ const { y } = useScroll(window);
   opacity: 0;
 
   // 状态二：移除平移 + 完全不透明
+  // & 是 父选择器引用 ，代表当前嵌套层级的父选择器（.app-header-sticky）。
+  // &.show 表示父选择器 + .show 类
   &.show {
     transition: all 0.3s linear;
-    transform: none;
-    opacity: 1;
+    transform: none; // 移除平移
+    opacity: 1; // 完全不透明,即显示出来
   }
 
   .container {

@@ -1,3 +1,6 @@
+// 导入 Sass 颜色模块，使 adjust-color 等函数全局可用
+@use "sass:color" as *;
+
 $xtxColor: #27ba9b;
 $helpColor: #e26237;
 $sucColor: #1dc779;

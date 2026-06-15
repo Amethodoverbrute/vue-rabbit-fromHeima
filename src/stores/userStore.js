@@ -16,7 +16,11 @@ export const useUserStore = defineStore(
     const getUserInfo = async ({ account, password }) => {
       const res = await loginAPI({ account, password });
       userInfo.value = res.result;
-      // 合并购物车的操作
+      // 显式保存 token 到 localStorage（确保后续请求能获取到）
+      if (res.result.token) {
+        localStorage.setItem("token", res.result.token);
+      }
+      // 合并购物车的操作——使用map方法可以从一个数组经过映射得到另一个数组
       await mergeCartAPI(
         cartStore.cartList.map((item) => {
           return {
@@ -24,7 +28,7 @@ export const useUserStore = defineStore(
             selected: item.selected,
             count: item.count,
           };
-        })
+        }),
       );
       cartStore.updateNewList();
     };
@@ -43,8 +47,8 @@ export const useUserStore = defineStore(
       clearUserInfo,
     };
   },
-  // 添加配置
+  // 添加配置, 开启数据持久化
   {
     persist: true,
-  }
+  },
 );

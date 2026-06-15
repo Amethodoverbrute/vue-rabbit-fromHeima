@@ -20,7 +20,7 @@ onMounted(() => getHotList());
         <RouterLink to="/">
           <!-- <RouterLink :to="`/detail/${item.id}`"> -->
           <!-- <img v-img-lazy="item.picture" :src="item.picture" alt="" /> -->
-          <!-- 注销掉后面的:src="item.picture" 因为我要懒加载，不要直接把图片地址给我直接绑定了-->
+          <!-- 注销掉后面的:src="item.picture" 因为我要懒加载，不要直接把图片地址给我直接绑定了，不然直接发送图片请求 -->
           <img v-img-lazy="item.picture" alt="" />
           <p class="name">{{ item.title }}</p>
           <p class="desc">{{ item.alt }}</p>
