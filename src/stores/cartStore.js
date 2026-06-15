@@ -1,4 +1,4 @@
-// 封装购物车模块
+// 封装 购物车 模块
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useUserStore } from "@/stores/userStore";
@@ -12,21 +12,21 @@ export const useCartStore = defineStore(
     // 1、定义state —— cartList
     const cartList = ref([]);
 
-    // 获取最新购物车列表action
+    // 获取最新购物车列表action，保存到pinia的state中
     const updateNewList = async () => {
       const res = await findNewCartListAPI();
       cartList.value = res.result;
     };
 
     // 2、定义action —— addCart
-    // 添加购物车 操作
+    // 添加商品到购物车 操作
     const addCart = async (goods) => {
       const { skuId, count } = goods;
       if (isLogin.value) {
         // 登录之后的 加入购物车逻辑
         await insertCartAPI({ skuId, count });
         // const res = await findNewCartListAPI();
-        // cartList.value = res.result;
+        // cartList.value = res.result;   // 覆盖本地的购物车列表
         updateNewList();
       } else {
         // 添加购物车操作
@@ -38,22 +38,23 @@ export const useCartStore = defineStore(
           // 找到了
           item.count++;
         } else {
-          // 没找到
+          // 没找到，则完整保存商品对象
           cartList.value.push(goods);
         }
       }
     };
 
-    // 删除购物车 操作
+    // 从购物车删除商品 操作
     const delCart = async (skuId) => {
       if (isLogin.value) {
         // 调用接口实现接口购物车中的删除功能
         await delCartAPI([skuId]);
+        // 优化：下面两行代码是获取最新的购物车列表并更新到pinia的state中，是在多处复用的，所以可以封装成一个action即updateNewList
         // const res = await findNewCartListAPI();
         // cartList.value = res.result;
         updateNewList();
       } else {
-        // 思路：
+        // 数组删除数据的两种方式：
         // 1、找到要删除项的下标值 —— splice
         // 2、使用数组的过滤方法 —— filter
         const idx = cartList.value.findIndex((item) => skuId === item.skuId);
@@ -75,27 +76,29 @@ export const useCartStore = defineStore(
 
     // 全选功能
     const allCheck = (selected) => {
-      // 把cartList中的每一项的selected都设置为当前的全选框状态
+      // 把cartList中的每一项的selected都设置为当前的全选框状态，使用forEach方法遍历数组，给每个项的selected赋值为selected
       cartList.value.forEach((item) => (item.selected = selected));
     };
 
     // 统计，使用计算属性
-    // 1、总的数量，即所有项的count之和
+    // 1、商品的总数量，即所有项的count之和
     const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0));
-    // 2、总价，即所有项的count*price之和
+    // 2、商品的总价，即所有项的count*price之和
     const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0));
 
-    // 3. 已选择数量
+    // 3. 已选择商品数量
     const selectedCount = computed(() =>
-      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count, 0)
+      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count, 0),
     );
 
     // 4. 已选择商品价钱合计
     const selectedPrice = computed(() =>
-      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count * c.price, 0)
+      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count * c.price, 0),
     );
 
-    // 是否全选
+    // computed() 是 Vue 3 提供的 响应式计算属性 ，底层是一个特殊的 ref ，访问 .value 时返回计算结果。
+    // 在 store 中返回后，外部使用时无需加括号，直接当作属性读取即可。
+    // 是否全选，即所有项的selected都为true时，isAll为true，否则为false。使用数组的every方法实现
     const isAll = computed(() => cartList.value.every((item) => item.selected));
 
     return {
@@ -116,5 +119,5 @@ export const useCartStore = defineStore(
   {
     // 同步本地数据
     persist: true,
-  }
+  },
 );

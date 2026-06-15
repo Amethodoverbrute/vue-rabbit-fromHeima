@@ -1,7 +1,6 @@
 // 定义懒加载插件
 
 import { useIntersectionObserver } from "@vueuse/core";
-import { install } from "element-plus";
 
 export const lazyPlugin = {
   install(app) {
@@ -13,12 +12,13 @@ export const lazyPlugin = {
         // el:指令绑定的那个元素 这里是img
         // binding：binding.value 指令等于号 后面绑定的表达式的值 这里是图片url
         // console.log("打印懒加载指令的el和binding.value", el, binding.value);
+        // stop() 停止监听元素是否进入视口区，避免重复加载
         const { stop } = useIntersectionObserver(el, ([entry]) => {
           if (entry.isIntersecting) {
             // 进入视口区了
-            console.log("进入视口区了", entry);
+            // console.log("进入视口区了", entry);
             el.src = binding.value;
-            stop();
+            stop(); // 进入视口区了，停止监听，避免重复加载。即只加载一次图片
           }
         });
       },

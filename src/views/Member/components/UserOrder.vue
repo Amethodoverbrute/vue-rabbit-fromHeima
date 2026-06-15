@@ -14,7 +14,7 @@ const tabTypes = [
 ];
 
 // 创建格式化函数
-const fomartPayState = (payState) => {
+const formatPayState = (payState) => {
   const stateMap = {
     1: "待付款",
     2: "待发货",
@@ -48,14 +48,14 @@ onMounted(() => getOrderList());
 const tabChange = (type) => {
   // console.log(type);
   params.value.orderState = type;
-  getOrderList();
+  getOrderList(); // 切换tab时，重新获取订单列表
 };
 
 // 页数切换 回调函数
 const pageChange = (page) => {
   //   console.log(page);
   params.value.page = page;
-  getOrderList();
+  getOrderList(); // 切换页数时，重新获取订单列表
 };
 </script>
 
@@ -102,7 +102,7 @@ const pageChange = (page) => {
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ fomartPayState(order.orderState) }}</p>
+                <p>{{ formatPayState(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>

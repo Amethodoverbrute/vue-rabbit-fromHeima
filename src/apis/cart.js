@@ -20,7 +20,7 @@ export const findNewCartListAPI = () => {
   });
 };
 
-// 删除购物车
+// 删除购物车中的商品
 export const delCartAPI = (ids) => {
   return request({
     url: "/member/cart",
@@ -29,7 +29,7 @@ export const delCartAPI = (ids) => {
   });
 };
 
-// 合并购物车
+// 合并本地购物车商品到服务器购物车
 export const mergeCartAPI = (data) => {
   return request({
     url: "/member/cart/merge",

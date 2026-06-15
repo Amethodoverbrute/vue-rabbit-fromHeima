@@ -4,7 +4,7 @@ import { getHotGoodsAPI } from "@/apis/detail";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
-// 设计props参数，适配不同的title和数据（解决24h和一周的热榜列表问题）
+// 子组件中设计props参数，适配不同的title和数据（解决24h和一周的热榜列表问题）
 const props = defineProps({
   hotType: {
     type: Number,
@@ -15,10 +15,11 @@ const TYPEMAP = {
   1: "24小时热榜",
   2: "周热榜",
 };
+// 子组件中根据props参数渲染不同的title，计算属性实现动态渲染
 const title = computed(() => TYPEMAP[props.hotType]);
 
 // 1、封装接口
-// 2、调用接口->渲染模板
+// 2、调用接口 -> 渲染模板
 const hotList = ref([]);
 const route = useRoute();
 const getHotList = async () => {

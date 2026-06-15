@@ -44,6 +44,7 @@ const createOrder = async () => {
     payType: 1,
     payChannel: 1,
     buyerMessage: "",
+    // 从完整商品对象中提取商品信息，只保留商品id和数量
     goods: checkInfo.value.goods.map((item) => {
       return {
         skuId: item.skuId,
@@ -166,7 +167,8 @@ const createOrder = async () => {
     </div>
   </div>
 
-  <!-- 切换地址 -->
+  <!-- 切换地址 弹框，通常放到整个组件的底部 就可以了 -->
+  <!-- 使用v-model进行父子组件的双向通信，而不能使用v-show，因为v-show是单向的，不能实现数据的双向绑定 -->
   <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
     <div class="addressWrapper">
       <div

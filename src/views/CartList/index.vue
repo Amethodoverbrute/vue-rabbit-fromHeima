@@ -6,12 +6,12 @@ const cartStore = useCartStore();
 // 单选框 回调
 const singleCheck = (i, selected) => {
   // console.log(i, selected);
-  // store cartList 是数组 现在无法知道要修改 谁 的选中与否状态？
+  // store中 cartList 是数组 现在无法知道要修改 谁 的选中与否状态？
   // 除了selected之外，还需要补充一个用来筛选的参数 —— skuId
-  cartStore.singleCheck(i.skuId, selected);
+  cartStore.singleCheck(i.skuId, selected); // 根据skuId筛选出对应的项，修改选中状态为selected，同时更新pinia中的统计信息
 };
 
-// 全选框 回调
+// 全选框 回调，这里的selected是全选框的选中状态，是默认传递的参数
 const allCheck = (selected) => {
   cartStore.allCheck(selected);
 };
@@ -39,7 +39,7 @@ const allCheck = (selected) => {
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <!-- 单选框 -->
+                <!-- 单选框，注意把v-model的写法改为:model-value和@change，同时注意回调函数中参数传递的写法 -->
                 <el-checkbox
                   :model-value="i.selected"
                   @change="(selected) => singleCheck(i, selected)"

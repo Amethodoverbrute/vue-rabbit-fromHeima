@@ -1,5 +1,6 @@
 <script setup>
 import DetailHot from "./components/DetailHot.vue";
+// 因为ImageView和XtxSku组件已经全局注册了，所以这里不需要再引入
 // import ImageView from "@/components/ImageView/index.vue";
 // import XtxSku from "@/components/XtxSku/index.vue";
 import { getDetail } from "@/apis/detail";
@@ -20,23 +21,23 @@ const getGoods = async () => {
 
 onMounted(() => getGoods());
 
-// sku规格被操作时
+// sku规格被操作时，更新skuObj对象
 let skuObj = {};
 const skuChange = (sku) => {
   // console.log(sku);
   skuObj = sku;
 };
 
-// count
+// count,商品数量选择器
 const count = ref(1);
 const countChange = (count) => {
   // console.log(count);
 };
 
-// 添加购物车
+// 添加到购物车
 const addCart = () => {
   if (skuObj.skuId) {
-    // 规格已经选择 触发action
+    // 规格已经选择，触发action
     cartStore.addCart({
       id: goods.value.id,
       name: goods.value.name,
@@ -48,7 +49,7 @@ const addCart = () => {
       selected: true,
     });
   } else {
-    // 规格没有选择 提示用户
+    // 规格没有选择，提示用户
     ElMessage.warning("请选择规格");
   }
 };
@@ -56,14 +57,15 @@ const addCart = () => {
 
 <template>
   <div class="xtx-goods-page">
+    <!-- 条件渲染 -->
     <div class="container" v-if="goods.details">
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <!-- 页面没有渲染出来的原因：/错误原因：goods一开始是个空对象{}，所以 {}.category -> undefined -> undefined[1] -->
+          <!-- 这里有个坑，要注意一下！页面没有渲染出来的原因：/错误原因：goods一开始是个空对象{}，所以 {}.category -> undefined -> undefined[1] -->
           <!-- 解决方法 -->
           <!-- 1、可选链的语法：?. -->
-          <!-- 2、v-if: 手动控制渲染时机，保证只有数据存在时才渲染 -->
+          <!-- 2、v-if: 手动控制渲染时机，保证只有数据存在时 才渲染 -->
           <!-- <el-breadcrumb-item :to="{ path: '`/category/${goods.categories?.[1].id}`' }"
             >{{ goods.categories?.[1].name }}
           </el-breadcrumb-item>
@@ -136,8 +138,9 @@ const addCart = () => {
                 </dl>
               </div>
               <!-- sku组件 -->
+              <!-- <Sku :goods="goods" @change="skuChange" />  -->
               <XtxSku :goods="goods" @change="skuChange" />
-              <!-- 数据组件 -->
+              <!-- 数据组件, count数量选择器 -->
               <el-input-number v-model="count" @change="countChange" />
               <!-- 按钮组件 -->
               <div>
@@ -167,9 +170,9 @@ const addCart = () => {
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <!-- 24h -->
+              <!-- 24h，父组件传递参数1给子组件，子组件根据参数渲染不同的热榜 -->
               <DetailHot :hot-type="1" />
-              <!-- 周 -->
+              <!-- 周，父组件传递参数2给子组件，子组件根据参数渲染不同的热榜 -->
               <DetailHot :hot-type="2" />
             </div>
           </div>

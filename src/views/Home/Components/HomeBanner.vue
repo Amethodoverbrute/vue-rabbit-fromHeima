@@ -6,11 +6,11 @@ const bannerList = ref([]);
 
 const getBanner = async () => {
   const res = await getBannerAPI();
-  console.log(res);
+  // console.log(res);
   bannerList.value = res.result;
 };
 
-onMounted(() => getBanner());
+onMounted(() => getBanner()); // 组件挂载时获取banner数据
 </script>
 
 <template>

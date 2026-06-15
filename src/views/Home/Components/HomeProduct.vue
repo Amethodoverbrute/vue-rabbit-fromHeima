@@ -2,7 +2,7 @@
 import HomePanel from "./HomePanel.vue";
 import { getGoodsAPI } from "@/apis/home";
 import { onMounted, ref } from "vue";
-import GoodsItem from "./GoodsItem.vue";
+import GoodsItem from "./GoodsItem.vue"; // 这里的GoodSiItem是作为一个“子组件”接收来自父组件发过来的数据就行了
 
 // 获取数据列表
 const goodsProduct = ref([]);
@@ -28,6 +28,8 @@ onMounted(() => getGoods());
         </RouterLink>
         <ul class="goods-list">
           <li v-for="good in cate.goods" :key="good.id">
+            <!-- 父子组件关系：HomeProduct.vue(父组件) → GoodsItem.vue(子组件) -->
+            <!-- 数据传递：父组件通过props的goods属性传入good对象 -->
             <GoodsItem :goods="good" />
           </li>
         </ul>
@@ -47,115 +49,61 @@ onMounted(() => getGoods());
       padding: 2px 12px;
       font-size: 16px;
       border-radius: 4px;
+      color: #666;
+      background: #f4f4f4;
 
       &:hover {
-        background: $xtxColor;
-        color: #fff;
+        background: #f4f0ea;
       }
 
-      &:last-child {
-        margin-right: 80px;
+      &.active {
+        background: #fff;
+        color: #ff6a00;
       }
     }
   }
 
   .box {
-    display: flex;
+    padding: 15px;
+    border-top: 1px solid #eee;
 
     .cover {
-      width: 240px;
-      height: 610px;
-      margin-right: 10px;
+      display: block;
+      margin-bottom: 15px;
       position: relative;
-
       img {
         width: 100%;
-        height: 100%;
+        vertical-align: top;
       }
 
       .label {
-        width: 188px;
-        height: 66px;
-        display: flex;
-        font-size: 18px;
-        color: #fff;
-        line-height: 66px;
-        font-weight: normal;
         position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translate3d(0, -50%, 0);
+        left: 15px;
+        bottom: 15px;
+        display: flex;
+        align-items: center;
+        span:first-child {
+          background: rgba(255, 106, 0, 0.9);
+          color: #fff;
+          font-size: 18px;
+          padding: 3px 10px;
+          border-radius: 4px;
+          margin-right: 10px;
+        }
 
-        span {
-          text-align: center;
-
-          &:first-child {
-            width: 76px;
-            background: rgba(0, 0, 0, 0.9);
-          }
-
-          &:last-child {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.7);
-          }
+        span:last-child {
+          color: #fff;
+          font-size: 14px;
         }
       }
     }
 
     .goods-list {
-      width: 990px;
       display: flex;
       flex-wrap: wrap;
-
       li {
-        width: 240px;
-        height: 300px;
-        margin-right: 10px;
+        width: 20%;
         margin-bottom: 10px;
-
-        &:nth-last-child(-n + 4) {
-          margin-bottom: 0;
-        }
-
-        &:nth-child(4n) {
-          margin-right: 0;
-        }
-      }
-    }
-
-    .goods-item {
-      display: block;
-      width: 220px;
-      padding: 20px 30px;
-      text-align: center;
-      transition: all 0.5s;
-
-      &:hover {
-        transform: translate3d(0, -3px, 0);
-        box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-      }
-
-      img {
-        width: 160px;
-        height: 160px;
-      }
-
-      p {
-        padding-top: 10px;
-      }
-
-      .name {
-        font-size: 16px;
-      }
-
-      .desc {
-        color: #999;
-        height: 29px;
-      }
-
-      .price {
-        color: $priceColor;
-        font-size: 20px;
       }
     }
   }

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    /* 路径映射, 用于在 import 中使用 @ 表示 src 目录 ,只做路径映射, 不做文件查找 */
     "paths": {
       "@/*": ["./src/*"]
     }
